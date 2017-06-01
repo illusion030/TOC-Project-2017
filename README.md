@@ -28,7 +28,7 @@ You can either setup https server or using `ngrok` as a proxy.
 **`ngrok` would be used in the following instruction**
 
 ```sh
-ngrok http 5000
+./ngrok http 5000
 ```
 
 After that, `ngrok` would generate a https URL.
@@ -47,15 +47,74 @@ python3 app.py
 ## Usage
 The initial state is set to `user`.
 
-Every time `user` state is triggered to `advance` to another state, it will `go_back` to `user` state after the bot replies corresponding message.
-
 * user
-	* Input: "go to state1"
-		* Reply: "I'm entering state1"
+    * Reply: "Welcome to courses searching system ,enter '/change' to change character ,enter the Dept. Inst. Code you wanted to search:"
+	* Input: Existed Dept. Inst. Code
+		* Goto: findid
 
-	* Input: "go to state2"
-		* Reply: "I'm entering state2"
+    * Input: "/start"
+        * Goto: start
+    
+    * Input: "/change"
+        * Goto: change
+    
+    * Input: Anything else
+        * Reply: "Can't find the input Dept. Inst. Code"
+        * Goto: user
 
+* start
+    * Initialize
+
+    * Go back: user
+
+* change
+    * Reply: "Please enter number to choose the character ,1.bear ,2.dog ,3.cat"
+    
+    * Input: 1
+        * change img and name to bear
+        * Goto: user
+
+    * Input: 2
+        * change img and name to dog
+        * Goto: user
+
+    * Input: 3
+        * change img and name to cat
+        * Goto: user
+
+    * Input: Anything else
+        * Goto: change
+
+* findid
+    * Reply: "Find Dept. Inst. Code ,please enter Serial Number, enter '/leave' to leave:"
+	
+    * Input: Existed Serial Number
+        * Goto: findcourse
+
+    * Input: "/leave"
+        * Goto: user
+
+    * Input: Anything else
+        * Reply "Can't find the input Serial Number"
+        * Goto: findid
+
+* findcourse
+	* Reply: "Find Course:... ,Space Available is:... ,enter anything to quit:"
+    
+    * Input: Anything
+        * Goto: leave
+
+* leave
+    * Reply: "Sure to leave? enter '/yes' to leave, enter '/no' to go back:"
+
+    * Input: "/yes"
+        * Goto: user
+
+    * Input: "/no"
+        * Goto: findcourse
+    
+    * Input: Anything else
+        * Goto leave
 
 ## Author
-[Lee-W](https://github.com/Lee-W)
+[illusion030](https://github.com/illusion030)
